@@ -1,0 +1,119 @@
+import urllib.request
+import urllib.parse
+import pandas
+import os
+import time
+
+
+def process_scale_choice(scale_choice):
+    base_url = ""
+    scale_choice = int(scale_choice)
+    if scale_choice == 1:
+        base_url = "https://huiyan.baidu.com/migration/provincerank.jsonp?"
+    else:
+        base_url = "https://huiyan.baidu.com/migration/cityrank.jsonp?"
+    return base_url
+
+
+def process_date_choice(date_choice):
+    tiny_list = []
+    if int(date_choice) == 1:
+        tiny_list = ["20220110", time.strftime("%Y%m%d", time.localtime(time.time()))]
+    elif int(date_choice) == 2:
+        tiny_list = ["20210913", "20220109"]
+    elif int(date_choice) == 3:
+        tiny_list = ["20210119", "20210308"]
+    elif int(date_choice) == 4:
+        tiny_list = ["20200922", "20210118"]
+    elif int(date_choice) == 5:
+        tiny_list = ["20200110", "20200315"]
+    return tiny_list
+
+
+def process_direction_choice(direction_choice):
+    direction_choice = int(direction_choice)
+    direction_str = ""
+    if direction_choice == 1:
+        direction_str = "move_in"
+    elif direction_choice == 2:
+        direction_str = "move_out"
+    return direction_str
+
+
+def process_area_choice(area_choice):
+    area_choice = int(area_choice)
+    area_code = ""
+    if area_choice == 1:
+        area_code = "510100"
+    elif area_choice == 2:
+        area_code = "460100"
+    return area_code
+
+
+def generate_date_list(date_se_list:list):
+    pandas_date_list = pandas.date_range(date_se_list[0], date_se_list[1], freq="1D")
+    date_list = []
+    for date in pandas_date_list:
+        date_list.append(date.strftime("%Y%m%d"))
+    return date_list
+
+
+def create_directory(area_choice, date_choice, direction_choice, scale_choice):
+    area_choice = int(area_choice)
+    date_choice = int(date_choice)
+    direction_choice = int(direction_choice)
+    scale_choice = int(scale_choice)
+    area = ""
+    date_range = ""
+    direction = ""
+    scale = ""
+    if area_choice == 1:
+        area = "成都"
+    elif area_choice == 2:
+        area = "海口"
+
+    if date_choice == 1:
+        date_range = "2022春运"
+    elif date_choice == 2:
+        date_range = "2021国庆"
+    elif date_choice == 3:
+        date_range = "2021春运"
+    elif date_choice == 4:
+        date_range = "2020国庆"
+    elif date_choice == 5:
+        date_range = "2020春运"
+
+    if direction_choice == 1:
+        direction = "迁入来源地"
+    elif direction_choice == 2:
+        direction = "迁出目的地"
+
+    if scale_choice == 1:
+        scale = "省级"
+    elif scale_choice == 2:
+        scale = "市级"
+
+    dir_name = "%s_%s_%s_%s" % (area, date_range, scale, direction)
+    dir_exists = os.path.exists(dir_name)
+    if dir_exists:
+        print("\"" + dir_name + "\"" + "目录已存在")
+    else:
+        os.mkdir(dir_name)
+
+    return dir_name
+
+
+def init_request(scale_choice, date, direction_choice, area_choice):
+    base_url = process_scale_choice(scale_choice=scale_choice)
+    direction = process_direction_choice(direction_choice)
+    area_code = process_area_choice(area_choice)
+    para = {
+        "dt": "city",
+        "id": area_code,
+        "type": direction,
+        "date": date
+    }
+    url = base_url + urllib.parse.urlencode(para)
+    my_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)   Chrome/97.0.4692.71 Safari/537.36"}
+    request = urllib.request.Request(url=url, headers=my_headers)
+    return request
