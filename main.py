@@ -1,7 +1,6 @@
 import urllib.request
 import urllib.parse
 import func
-import time
 
 
 area_choice = "area_choice"
