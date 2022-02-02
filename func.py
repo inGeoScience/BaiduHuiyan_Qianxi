@@ -3,6 +3,34 @@ import urllib.parse
 import pandas
 import os
 import time
+import json
+import jsonpath
+
+
+def create_xlsx(json_path, date, scale_choice):
+    json_object = json.load(open(json_path, encoding="utf-8"))
+    scale_choice = int(scale_choice)
+    if scale_choice == 1:
+        province_list = jsonpath.jsonpath(json_object, "$.data.list[*].province_name")
+        value_list = jsonpath.jsonpath(json_object, "$.data.list[*].value")
+        df = pandas.DataFrame({
+            "Province_Name": province_list,
+            "Proportion": value_list
+        })
+        df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
+        print("%s.xlsx写入完成" % date)
+
+    elif scale_choice == 2:
+        province_list = jsonpath.jsonpath(json_object, "$.data.list[*].province_name")
+        city_list = jsonpath.jsonpath(json_object, "$.data.list[*].city_name")
+        value_list = jsonpath.jsonpath(json_object, "$.data.list[*].value")
+        df = pandas.DataFrame({
+            "Province_Name": province_list,
+            "City_Name": city_list,
+            "Proportion": value_list
+        })
+        df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
+        print("%s.xlsx写入完成" % date)
 
 
 def process_scale_choice(scale_choice):
@@ -108,6 +136,7 @@ def init_request(scale_choice, date, direction_choice, area_choice):
     direction = process_direction_choice(direction_choice)
     area_code = process_area_choice(area_choice)
     para = {
+        # 如果主体为省，则需要改dt
         "dt": "city",
         "id": area_code,
         "type": direction,
