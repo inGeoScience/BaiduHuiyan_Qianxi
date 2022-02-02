@@ -13,24 +13,30 @@ def create_xlsx(json_path, date, scale_choice):
     if scale_choice == 1:
         province_list = jsonpath.jsonpath(json_object, "$.data.list[*].province_name")
         value_list = jsonpath.jsonpath(json_object, "$.data.list[*].value")
-        df = pandas.DataFrame({
-            "Province_Name": province_list,
-            "Proportion": value_list
-        })
-        df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
-        print("%s.xlsx写入完成" % date)
+        if province_list and value_list:
+            df = pandas.DataFrame({
+                "Province_Name": province_list,
+                "Proportion": value_list
+            })
+            df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
+            print("%s.xlsx写入完成" % date)
+        else:
+            print("%s.xlsx写入失败，未读取到json数据" % date)
 
     elif scale_choice == 2:
         province_list = jsonpath.jsonpath(json_object, "$.data.list[*].province_name")
         city_list = jsonpath.jsonpath(json_object, "$.data.list[*].city_name")
         value_list = jsonpath.jsonpath(json_object, "$.data.list[*].value")
-        df = pandas.DataFrame({
-            "Province_Name": province_list,
-            "City_Name": city_list,
-            "Proportion": value_list
-        })
-        df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
-        print("%s.xlsx写入完成" % date)
+        if province_list and city_list and value_list:
+            df = pandas.DataFrame({
+                "Province_Name": province_list,
+                "City_Name": city_list,
+                "Proportion": value_list
+            })
+            df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
+            print("%s.xlsx写入完成" % date)
+        else:
+            print("%s.xlsx写入失败，未读取到json数据" % date)
 
 
 def process_scale_choice(scale_choice):
