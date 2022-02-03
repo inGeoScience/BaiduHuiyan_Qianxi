@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.parse
 import func
+import time
 
 
 area_choice = "area_choice"
@@ -29,5 +30,5 @@ for date in date_list:
     file.close()
     print("%s.json写入完毕" % date)
     func.create_xlsx("./%s/%s.json" % (dir_name, date), date, scale_choice)
-    # time.sleep(22)
+    time.sleep(22)
 print("结束")
