@@ -15,7 +15,7 @@ while not direction_choice.isnumeric():
     direction_choice = input("1.迁入来源地 2.迁出目的地")
 date_choice = "date_choice"
 while not date_choice.isnumeric():
-    date_choice = input("1.2022春运 2.2021国庆 3.2021春运 4.2020国庆 5.2020春运")
+    date_choice = input("1.2022春运 2.2021国庆 3.2021春运 4.2020国庆 5.2020春运 6.自定义")
 base_url = func.process_scale_choice(scale_choice=scale_choice)
 date_se_list = func.process_date_choice(date_choice=date_choice)
 date_list = func.generate_date_list(date_se_list)
@@ -30,5 +30,5 @@ for date in date_list:
     file.close()
     print("%s.json写入完毕" % date)
     func.create_xlsx("./%s/%s.json" % (dir_name, date), date, scale_choice)
-    time.sleep(22)
+    time.sleep(5)
 print("结束")

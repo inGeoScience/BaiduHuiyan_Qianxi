@@ -36,7 +36,7 @@ def create_xlsx(json_path, date, scale_choice):
             df.to_excel("./%s/%s.xlsx" % (json_path.split("/")[1], date))
             print("%s.xlsx写入完成" % date)
         else:
-            print("%s.xlsx写入失败，未读取到json数据" % date)
+            print("%s.xlsx写入失败，json数据内没有内容或未获取json数据" % date)
 
 
 def process_scale_choice(scale_choice):
@@ -61,6 +61,9 @@ def process_date_choice(date_choice):
         tiny_list = ["20200922", "20210118"]
     elif int(date_choice) == 5:
         tiny_list = ["20200110", "20200315"]
+    elif int(date_choice) == 6:
+        tiny_list.append(input("请输入起始日期，格式：20210101"))
+        tiny_list.append(input("请输入终止日期，格式：20210101"))
     return tiny_list
 
 
@@ -116,6 +119,8 @@ def create_directory(area_choice, date_choice, direction_choice, scale_choice):
         date_range = "2020国庆"
     elif date_choice == 5:
         date_range = "2020春运"
+    elif date_choice == 6:
+        date_range = "自定义"
 
     if direction_choice == 1:
         direction = "迁入来源地"
@@ -130,7 +135,7 @@ def create_directory(area_choice, date_choice, direction_choice, scale_choice):
     dir_name = "%s_%s_%s_%s" % (area, date_range, scale, direction)
     dir_exists = os.path.exists(dir_name)
     if dir_exists:
-        print("\"" + dir_name + "\"" + "目录已存在")
+        print("\"" + dir_name + "\"" + "目录已存在，将覆盖目录里同名文件")
     else:
         os.mkdir(dir_name)
 
