@@ -62,8 +62,8 @@ def process_date_choice(date_choice):
     elif int(date_choice) == 5:
         tiny_list = ["20200110", "20200315"]
     elif int(date_choice) == 6:
-        tiny_list.append(input("请输入起始日期，格式：20210101"：))
-        tiny_list.append(input("请输入终止日期，格式：20210101"：))
+        tiny_list.append(input("请输入起始日期，格式：20210101"))
+        tiny_list.append(input("请输入终止日期，格式：20210101"))
     return tiny_list
 
 
