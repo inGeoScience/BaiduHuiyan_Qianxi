@@ -7,4 +7,4 @@
 
 需要pandas、urllib、openpyxl
 
-每获某一天的数据要暂停22秒
+每获某一天的数据要暂停5秒
