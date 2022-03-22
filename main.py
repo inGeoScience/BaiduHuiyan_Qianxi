@@ -4,6 +4,9 @@ import func
 import time
 
 
+dt_scale_choice = "id_scale_choice"
+while not dt_scale_choice.isnumeric():
+    dt_scale_choice = input("1.查询城市 2.查询省份")
 area_choice = "area_choice"
 while not area_choice.isnumeric():
     area_choice = input("1.成都 2.海口")
@@ -21,7 +24,7 @@ date_se_list = func.process_date_choice(date_choice=date_choice)
 date_list = func.generate_date_list(date_se_list)
 dir_name = func.create_directory(area_choice, date_choice, direction_choice, scale_choice)
 for date in date_list:
-    request = func.init_request(scale_choice, date, direction_choice, area_choice)
+    request = func.init_request(scale_choice, date, direction_choice, area_choice, dt_scale_choice)
     response = urllib.request.urlopen(request)
     content = response.read().decode("utf-8")
     content = content.split("(")[1].split(")")[0]

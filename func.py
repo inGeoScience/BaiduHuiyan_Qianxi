@@ -52,7 +52,8 @@ def process_scale_choice(scale_choice):
 def process_date_choice(date_choice):
     tiny_list = []
     if int(date_choice) == 1:
-        tiny_list = ["20220110", time.strftime("%Y%m%d", time.localtime(time.time()))]
+        tiny_list = ["20220110", "20220225"]
+        # tiny_list = ["20220110", time.strftime("%Y%m%d", time.localtime(time.time()))]
     elif int(date_choice) == 2:
         tiny_list = ["20210913", "20220109"]
     elif int(date_choice) == 3:
@@ -142,13 +143,18 @@ def create_directory(area_choice, date_choice, direction_choice, scale_choice):
     return dir_name
 
 
-def init_request(scale_choice, date, direction_choice, area_choice):
+def init_request(scale_choice, date, direction_choice, area_choice, dt_scale_choice):
     base_url = process_scale_choice(scale_choice=scale_choice)
     direction = process_direction_choice(direction_choice)
     area_code = process_area_choice(area_choice)
+    dt_scale = 'dt_scale'
+    if int(dt_scale_choice) == 1:
+        dt_scale = 'city'
+    else:
+        dt_scale = 'province'
     para = {
         # 如果主体为省，则需要改dt
-        "dt": "city",
+        "dt": dt_scale,
         "id": area_code,
         "type": direction,
         "date": date
