@@ -6,8 +6,7 @@
 
 支持成都、海口和自定义查询，使用自定义查询之前需要找到其所对应的area_code，area_code对应的是示例url里的id
 
-需要pandas、urllib、openpyxl
-每获某一天的数据要暂停5秒
+需要urllib, pandas,  openpyxl库
 ---
 
 # 使用
