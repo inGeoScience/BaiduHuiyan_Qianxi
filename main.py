@@ -10,7 +10,7 @@ while not area_choice.isnumeric():
     area_choice = input("1.成都 2.海口 3.自定义")
 scale_choice = "scale_choice"
 while not scale_choice.isnumeric():
-    scale_choice = input("请输入迁入迁出排名单位\n1.省级 2.市级：")
+    scale_choice = input("请输入迁徙数据单位级别\n1.省、直辖市级 2.地级市级：")
 direction_choice = "direction_choice"
 while not direction_choice.isnumeric():
     direction_choice = input("1.迁入来源地 2.迁出目的地")
